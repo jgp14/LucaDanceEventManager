@@ -5,11 +5,13 @@ import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistExcepti
 import com.lucatic.grupo2.app.eventmanager.feignclient.EventExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.feignclient.UserExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithError;
+import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 import com.lucatic.grupo2.app.eventmanager.models.dto.UserExistResponseWithError;
 import com.netflix.discovery.converters.Auto;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class EventManagerServiceImpl implements EventManagerService {
@@ -46,5 +48,9 @@ public class EventManagerServiceImpl implements EventManagerService {
             throw new CheckEventUserExistException("Error en el feign checkeando user y event");
         }
         return isExist;
+    }
+
+    public StringResponseWithError getNameUser(Long idUser) {
+        return userExistFeignClient.getUserNameById(idUser);
     }
 }
