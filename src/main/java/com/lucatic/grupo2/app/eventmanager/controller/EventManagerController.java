@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/eventmanager")
 public class EventManagerController {
 
+	private static final Logger LOGGER = LogManager.getLogger(EventManagerController.class);
+
 	@Autowired
 	private EventManagerService eventManagerService;
 
@@ -42,14 +46,20 @@ public class EventManagerController {
 	@GetMapping("/checkExist/{idUser}/{idEvent}")
 	public ResponseEntity<?> checkUserEvent(@PathVariable Long idUser, @PathVariable Long idEvent)
 			throws CheckEventUserExistException {
+
 		BoolResponseWithError boolResponseWithError = new BoolResponseWithError();
+
 		if ((eventManagerService.checkUserEvent(idUser, idEvent))) {
 			boolResponseWithError.setRespBool(true);
 		} else {
 			boolResponseWithError.setErrorBool(false);
 		}
+
 		boolResponseWithError.setError(null);
 		boolResponseWithError.setErrorBool(false);
+
+		LOGGER.info(boolResponseWithError);
+
 		return ResponseEntity.ok(boolResponseWithError);
 	}
 
