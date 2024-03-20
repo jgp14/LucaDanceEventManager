@@ -4,6 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Clase modelo DTO UserExistResponseWithError. Posee los getters, setters,
+ * toString y constuctores generados por Lombok @Data.
+ * 
+ * @author BlueDevTeams
+ * @version v1.0.0
+ * @since 19-03-2024
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
