@@ -42,7 +42,7 @@ public class EventManagerServiceImpl implements EventManagerService {
                     isExist = false;
                 }
             } else {
-                isExist = false;
+                isExist = false; //
             }
         } catch (FeignException e) {
             throw new CheckEventUserExistException("Error en el feign checkeando user y event");
