@@ -2,6 +2,7 @@ package com.lucatic.grupo2.app.eventmanager.service;
 
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
+import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
 import com.lucatic.grupo2.app.eventmanager.feignclient.EventExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.feignclient.UserExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithError;
@@ -25,7 +26,7 @@ public class EventManagerServiceImpl implements EventManagerService {
     private EventExistFeignClient eventExistFeignClient;
 
     @Override
-    public boolean checkUserEvent(Long idUser, Long idEvent) throws CheckEventUserExistException {
+    public boolean checkUserEvent(Long idUser, Long idEvent) throws EventManagerException {
         boolean isExist = true;
 
         try {
@@ -44,9 +45,12 @@ public class EventManagerServiceImpl implements EventManagerService {
                     isExist = false;
                 }
             } else {
-                isExist = false; //
+                isExist = false;
             }
             LOGGER.info("Existe usuario y evento: " + isExist);
+            if (!isExist) {
+                throw new EventManagerException("No existe el usuario y/o evento");
+            }
         } catch (FeignException e) {
             LOGGER.warn(e);
             throw new CheckEventUserExistException("Error en el feign checkeando user y event");
@@ -54,7 +58,12 @@ public class EventManagerServiceImpl implements EventManagerService {
         return isExist;
     }
 
-    public StringResponseWithError getNameUser(Long idUser) {
-        return userExistFeignClient.getUserNameById(idUser);
+    public StringResponseWithError getNameUser(Long idUser) throws EventManagerException {
+
+        try {
+            return userExistFeignClient.getUserNameById(idUser);
+        } catch (FeignException e) {
+            throw new EventManagerException("Error leyendo microservicio User");
+        }
     }
 }

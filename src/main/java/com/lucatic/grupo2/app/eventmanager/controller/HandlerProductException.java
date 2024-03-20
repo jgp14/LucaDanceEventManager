@@ -1,6 +1,7 @@
 package com.lucatic.grupo2.app.eventmanager.controller;
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
+import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
 import com.lucatic.grupo2.app.eventmanager.models.Error;
 import com.lucatic.grupo2.app.eventmanager.models.dto.BoolResponseWithError;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,17 @@ public class HandlerProductException {
 		error.setStatus(HttpStatus.BAD_REQUEST.value());
 		// return ResponseEntity.internalServerError().body(error);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
+	}
+
+	@ExceptionHandler(EventManagerException.class)
+	public ResponseEntity<Error> errorGenericoRuntime(EventManagerException e) {
+		Error error = new Error();
+		error.setDate(LocalDateTime.now());
+		error.setError("Error genérico EventManagerException");
+		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
+		error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+		// return ResponseEntity.internalServerError().body(error);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(error);
 	}
 
 }
