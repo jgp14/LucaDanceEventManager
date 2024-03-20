@@ -18,21 +18,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Error {
-	/**
-	 * Atributo mensaje con el mensaje o descripcion del error
-	 */
+	/** Atributo mensaje con el mensaje o descripcion del error */
 	private String message;
-	/**
-	 * Atributo con el error
-	 */
+	/** Atributo con el error */
 	private String error;
-	/**
-	 * Atributo con el estado del error.
-	 */
+	/** Atributo con el estado del error. */
 	private int status;
-	/**
-	 * Atributo fecha y hora que se produjo el error.
-	 */
+	/** Atributo fecha y hora que se produjo el error. */
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime date;
 }

@@ -30,11 +30,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/eventmanager")
 public class EventManagerController {
 
+	/** Logger que registra los errores de clase EventManagerController */
 	private static final Logger LOGGER = LogManager.getLogger(EventManagerController.class);
 
+	/** Auto instanciamos el servicio de eventManager */
 	@Autowired
 	private EventManagerService eventManagerService;
 
+	/**
+	 * Comprueba la existencia de un usuario y evento por id.
+	 * 
+	 * @param idUser  Con el id de usuario a buscar
+	 * @param idEvent Con el id de evento a buscar
+	 * @return ResponseEntity Con la respuesta buscar, o encontrar usuario evento.
+	 * @throws CheckEventUserExistException cuando no se encontro usuario y/o evento
+	 *                                      con ese id.
+	 */
 	@Operation(summary = "Comprueba la existencia de un usuario y evento por id", description = "Devuelve la existencia de un usuario y evento", tags = {
 			"user" })
 	@ApiResponses(value = {
@@ -63,6 +74,12 @@ public class EventManagerController {
 		return ResponseEntity.ok(boolResponseWithError);
 	}
 
+	/**
+	 * Devuelve el nombre de usuario a partir de su id.
+	 * 
+	 * @param idUser identificador de usuario a buscar
+	 * @return ResponseEntity Con la respuesta al obtener el nombre de usuario.
+	 */
 	@Operation(summary = "Comprueba la existencia de un usuario por id", description = "Devuelve la existencia de un usuario", tags = {
 			"user" })
 	@ApiResponses(value = {
@@ -77,7 +94,7 @@ public class EventManagerController {
 		StringResponseWithError stringResponseWithError = eventManagerService.getNameUser(idUser);
 		stringResponseWithError.setError(null);
 		stringResponseWithError.setErrorBool(false);
-
+		LOGGER.info(stringResponseWithError);
 		return ResponseEntity.ok().body(stringResponseWithError);
 	}
 }

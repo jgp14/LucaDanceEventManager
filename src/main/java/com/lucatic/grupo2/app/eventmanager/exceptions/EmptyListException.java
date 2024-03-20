@@ -9,15 +9,13 @@ package com.lucatic.grupo2.app.eventmanager.exceptions;
  */
 public class EmptyListException extends EventManagerException {
 
-	/**
-	 *  Genera un serial para la excepcion personalizada
-	 */
+	/** Genera un serial para la excepcion personalizada */
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor que recibe un mensaje del fallo.
 	 * 
-	 * @param message descriptivo con el error de lista vacia. 
+	 * @param message descriptivo con el error de lista vacia.
 	 */
 	public EmptyListException(String message) {
 		super(message);
@@ -26,8 +24,8 @@ public class EmptyListException extends EventManagerException {
 	/**
 	 * Constructor que recibe un mensaje y la causa lanzable del fallo.
 	 * 
-	 * @param message descriptivo con el error de lista vacia. 
-	 * @param cause Detalles de motivos de la causa throwable.
+	 * @param message descriptivo con el error de lista vacia.
+	 * @param cause   Detalles de motivos de la causa throwable.
 	 */
 	public EmptyListException(String message, Throwable cause) {
 		super(message, cause);
