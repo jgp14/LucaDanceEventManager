@@ -73,9 +73,11 @@ public class EventManagerController {
 	})
 	@GetMapping("/getUser/{idUser}")
 	public ResponseEntity<?> getNameUser(@PathVariable Long idUser) {
+
 		StringResponseWithError stringResponseWithError = eventManagerService.getNameUser(idUser);
 		stringResponseWithError.setError(null);
 		stringResponseWithError.setErrorBool(false);
+
 		return ResponseEntity.ok().body(stringResponseWithError);
 	}
 }
