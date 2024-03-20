@@ -4,15 +4,12 @@ import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistExcepti
 import com.lucatic.grupo2.app.eventmanager.models.dto.BoolResponseWithError;
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 import com.lucatic.grupo2.app.eventmanager.service.EventManagerService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.swing.text.html.parser.Entity;
 
 /**
  * Clase controladora, toma las decisiones de la aplicacion
@@ -42,11 +39,6 @@ public class EventManagerController {
     }
 
 
-    @GetMapping("/getUser/{idUser}")
-    public ResponseEntity<?> getNameUser(@PathVariable Long idUser) {
-        StringResponseWithError stringResponseWithError = eventManagerService.getNameUser(idUser);
-        stringResponseWithError.setError(null);
-        stringResponseWithError.setErrorBool(false);
-        return ResponseEntity.ok().body(stringResponseWithError);
-    }
+    @GetMapping("/eventmanager/getUser/{idUser}")
+    public StringResponseWithError getNameUser(@PathVariable Long idUser);
 }
