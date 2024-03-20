@@ -40,4 +40,16 @@ public class HandlerProductException {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(boolResponseWithError);
 	}
 
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Error> errorGenericoRuntime(Exception e) {
+		Error error = new Error();
+		error.setDate(LocalDateTime.now());
+		error.setError("Error genérico procesando petición");
+		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
+		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		// return ResponseEntity.internalServerError().body(error);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
+	}
+
 }

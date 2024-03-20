@@ -17,7 +17,7 @@ public class StringResponseWithError {
     /**
      * Atributo con atributo boolean
      */
-    private String respString;
+    private String userExistText;
     /**
      * Atributo con boolean para decidir si es o no un error
      */
