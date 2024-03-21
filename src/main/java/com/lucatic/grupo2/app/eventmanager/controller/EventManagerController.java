@@ -3,7 +3,7 @@ package com.lucatic.grupo2.app.eventmanager.controller;
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
 import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
 import com.lucatic.grupo2.app.eventmanager.models.dto.BoolResponseWithError;
-import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithErrorList;
+import com.lucatic.grupo2.app.eventmanager.models.dto.EventResponseWithErrorList;
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 import com.lucatic.grupo2.app.eventmanager.service.EventManagerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -118,7 +118,7 @@ public class EventManagerController {
 	})
 	@GetMapping("/events/{name}")
 	public ResponseEntity<?> findEventsByName(@PathVariable String name) throws EventManagerException {
-		EventExistResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByName(name);
+		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByName(name);
 		eventExistResponseWithErrorList.setError(null);
 		eventExistResponseWithErrorList.setErrorBool(false);
 		LOGGER.info(eventExistResponseWithErrorList);

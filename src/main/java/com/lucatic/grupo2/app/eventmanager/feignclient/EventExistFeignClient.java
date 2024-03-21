@@ -1,8 +1,8 @@
 package com.lucatic.grupo2.app.eventmanager.feignclient;
 
 import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithError;
-import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithErrorList;
 
+import com.lucatic.grupo2.app.eventmanager.models.dto.EventResponseWithErrorList;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +34,7 @@ public interface EventExistFeignClient {
 	 * @return EventExistResponseWithErrorList con el mensaje de si la lista de
 	 *         eventos por nombre existe
 	 */
-	@GetMapping("/event/events/{name}")
-	EventExistResponseWithErrorList findEventByName(@PathVariable String name);
+	@GetMapping("/event/{name}")
+	EventResponseWithErrorList findEventByName(@PathVariable String name);
 
 }

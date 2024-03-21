@@ -1,9 +1,8 @@
 package com.lucatic.grupo2.app.eventmanager.service;
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
-import com.lucatic.grupo2.app.eventmanager.exceptions.EmptyListException;
-import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithErrorList;
 import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
+import com.lucatic.grupo2.app.eventmanager.models.dto.EventResponseWithErrorList;
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 
 /**
@@ -39,6 +38,6 @@ public interface EventManagerService {
 	 * @param name nombre de los eventos buscados
 	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
 	 */
-	EventExistResponseWithErrorList findEventsByName(String name) throws EmptyListException;
+	EventResponseWithErrorList findEventsByName(String name) throws EventManagerException;
 
 }

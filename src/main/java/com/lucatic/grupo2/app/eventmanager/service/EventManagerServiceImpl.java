@@ -1,12 +1,11 @@
 package com.lucatic.grupo2.app.eventmanager.service;
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
-import com.lucatic.grupo2.app.eventmanager.exceptions.EmptyListException;
 import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
 import com.lucatic.grupo2.app.eventmanager.feignclient.EventExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.feignclient.UserExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithError;
-import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithErrorList;
+import com.lucatic.grupo2.app.eventmanager.models.dto.EventResponseWithErrorList;
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 import com.lucatic.grupo2.app.eventmanager.models.dto.UserExistResponseWithError;
 import feign.FeignException;
@@ -14,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.events.EventException;
 
 /**
  * Clase que implementa el servicio de EventManager
@@ -94,25 +94,19 @@ public class EventManagerServiceImpl implements EventManagerService {
 	}
 
 	@Override
-	public EventExistResponseWithErrorList findEventsByName(String name) throws EmptyListException {
+	public EventResponseWithErrorList findEventsByName(String name) throws EventManagerException {
 		boolean isExist = false;
-		EventExistResponseWithErrorList eventExistResponseWithErrorList;
+		EventResponseWithErrorList eventExistResponseWithErrorList;
 		try {
 			eventExistResponseWithErrorList = eventExistFeignClient.findEventByName(name);
 			if (!eventExistResponseWithErrorList.isErrorBool()) {
-				if (!eventExistResponseWithErrorList.isEventListExistBool()) {
-					isExist = false;
-				}
+				return eventExistResponseWithErrorList;
 			} else {
-				isExist = false;
+				throw new EventManagerException("No se puede obtener lista de eventos");
 			}
-			LOGGER.info("Existe lista de eventos por nombre: " + isExist);
 		} catch (FeignException e) {
 			LOGGER.warn(e);
-			throw new EmptyListException("Error en el feign listando eventos por nombre");
+			throw new EventManagerException("Error en el feign listando eventos por nombre");
 		}
-		eventExistResponseWithErrorList.setEventListExistBool(isExist);
-		return eventExistResponseWithErrorList;
 	}
-	
 }
