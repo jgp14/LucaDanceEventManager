@@ -43,9 +43,17 @@ public interface EventManagerService {
 	/**
 	 * Devuelve los eventos por genero
 	 * 
-	 * @param name genero de los eventos buscados
+	 * @param roomtype genero de los eventos buscados
 	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
 	 */
 	EventResponseWithErrorList findEventsByRoomType(String roomtype) throws EventManagerException;
+
+	/**
+	 * Devuelve los eventos por ciudad
+	 * 
+	 * @param city ciudad de los eventos buscados
+	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
+	 */
+	EventResponseWithErrorList findEventsByCity(String city) throws EventManagerException;
 
 }

@@ -100,7 +100,6 @@ public class EventManagerServiceImpl implements EventManagerService {
 	 */
 	@Override
 	public EventResponseWithErrorList findEventsByName(String name) throws EventManagerException {
-		boolean isExist = false;
 		EventResponseWithErrorList eventExistResponseWithErrorList;
 		try {
 			eventExistResponseWithErrorList = eventExistFeignClient.findEventByName(name);
@@ -118,12 +117,12 @@ public class EventManagerServiceImpl implements EventManagerService {
 	/**
 	 * Devuelve los eventos por genero
 	 * 
-	 * @param name genero de los eventos buscados
+	 * @param roomtype genero de los eventos buscados
 	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
+	 * @throws EventManagerException si hay un error al buscar lista eventos
 	 */
 	@Override
 	public EventResponseWithErrorList findEventsByRoomType(String roomtype) throws EventManagerException {
-		boolean isExist = false;
 		EventResponseWithErrorList eventExistResponseWithErrorList;
 		try {
 			eventExistResponseWithErrorList = eventExistFeignClient.findEventByRoomType(roomtype);
@@ -135,6 +134,29 @@ public class EventManagerServiceImpl implements EventManagerService {
 		} catch (FeignException e) {
 			LOGGER.warn(e);
 			throw new EventManagerException("Error en el feign listando eventos por genero");
+		}
+	}
+
+	/**
+	 * Devuelve los eventos por ciudad
+	 * 
+	 * @param city genero de los eventos buscados
+	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
+	 * @throws EventManagerException si hay un error al buscar lista eventos
+	 */
+	@Override
+	public EventResponseWithErrorList findEventsByCity(String city) throws EventManagerException {
+		EventResponseWithErrorList eventExistResponseWithErrorList;
+		try {
+			eventExistResponseWithErrorList = eventExistFeignClient.findEventByCity(city);
+			if (!eventExistResponseWithErrorList.isErrorBool()) {
+				return eventExistResponseWithErrorList;
+			} else {
+				throw new EventManagerException("No se puede obtener lista de eventos");
+			}
+		} catch (FeignException e) {
+			LOGGER.warn(e);
+			throw new EventManagerException("Error en el feign listando eventos por ciudad");
 		}
 	}
 }

@@ -34,17 +34,27 @@ public interface EventExistFeignClient {
 	 * @return EventExistResponseWithErrorList con el mensaje de si la lista de
 	 *         eventos por nombre existe
 	 */
-	@GetMapping("/event/{name}")
+	@GetMapping("/event/name/{name}")
 	EventResponseWithErrorList findEventByName(@PathVariable String name);
 
 	/**
 	 * Mapeo del endpoint para si hay lista de eventos
 	 * 
-	 * @param name el tipo de sala o genero de busqueda de los eventos.
+	 * @param roomtype el tipo de sala o genero de busqueda de los eventos.
 	 * @return EventExistResponseWithErrorList con el mensaje de si la lista de
 	 *         eventos por genero existe
 	 */
-	@GetMapping("/event/{roomtype}")
+	@GetMapping("/event/roomtype/{roomtype}")
 	EventResponseWithErrorList findEventByRoomType(@PathVariable String roomtype);
+
+	/**
+	 * Mapeo del endpoint para si hay lista de eventos
+	 * 
+	 * @param ciudad la ciudad de busqueda de los eventos.
+	 * @return EventExistResponseWithErrorList con el mensaje de si la lista de
+	 *         eventos por ciudad
+	 */
+	@GetMapping("/event/city/{city}")
+	EventResponseWithErrorList findEventByCity(@PathVariable String city);
 
 }

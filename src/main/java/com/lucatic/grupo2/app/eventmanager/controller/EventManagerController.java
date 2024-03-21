@@ -116,7 +116,7 @@ public class EventManagerController {
 			@ApiResponse(responseCode = "500", description = "Error genérico mostrando lista eventos", content = @Content)
 
 	})
-	@GetMapping("/events/{name}")
+	@GetMapping("/event/name/{name}")
 	public ResponseEntity<?> findEventsByName(@PathVariable String name) throws EventManagerException {
 		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByName(name);
 		eventExistResponseWithErrorList.setError(null);
@@ -140,9 +140,33 @@ public class EventManagerController {
 			@ApiResponse(responseCode = "500", description = "Error genérico mostrando lista eventos", content = @Content)
 
 	})
-	@GetMapping("/events/{roomtype}")
+	@GetMapping("/event/roomtype/{roomtype}")
 	public ResponseEntity<?> findEventsByRoomType(@PathVariable String roomtype) throws EventManagerException {
 		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByRoomType(roomtype);
+		eventExistResponseWithErrorList.setError(null);
+		eventExistResponseWithErrorList.setErrorBool(false);
+		LOGGER.info(eventExistResponseWithErrorList);
+		return ResponseEntity.ok().body(eventExistResponseWithErrorList);
+	}
+
+	/**
+	 * Devuelve lista de eventos a partir de la ciudad del evento.
+	 * 
+	 * @param city ciudad de los eventos a buscar.
+	 * @return ResponseEntity Con la respuesta al obtener la lista de eventos
+	 * @throws EventManagerException cuando se produce un error al mostrar lista.
+	 */
+	@Operation(summary = "Encuentra y lista los eventos por ciudad", description = "Devuelve lista con los eventos por una ciudad concreta", tags = {
+			"user" })
+	@ApiResponses(value = {
+			@ApiResponse(description = "Encontrar eventos por ciudad", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StringResponseWithError.class))),
+			@ApiResponse(responseCode = "404", description = "No hay eventos con esa ciudad", content = @Content),
+			@ApiResponse(responseCode = "500", description = "Error genérico mostrando lista eventos", content = @Content)
+
+	})
+	@GetMapping("/event/city/{city}")
+	public ResponseEntity<?> findEventsByCity(@PathVariable String city) throws EventManagerException {
+		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByCity(city);
 		eventExistResponseWithErrorList.setError(null);
 		eventExistResponseWithErrorList.setErrorBool(false);
 		LOGGER.info(eventExistResponseWithErrorList);
