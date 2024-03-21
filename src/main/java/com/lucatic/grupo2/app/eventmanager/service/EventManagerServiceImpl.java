@@ -1,9 +1,11 @@
 package com.lucatic.grupo2.app.eventmanager.service;
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
+import com.lucatic.grupo2.app.eventmanager.exceptions.EmptyListException;
 import com.lucatic.grupo2.app.eventmanager.feignclient.EventExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.feignclient.UserExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithError;
+import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithErrorList;
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 import com.lucatic.grupo2.app.eventmanager.models.dto.UserExistResponseWithError;
 import feign.FeignException;
@@ -80,5 +82,27 @@ public class EventManagerServiceImpl implements EventManagerService {
 	 */
 	public StringResponseWithError getNameUser(Long idUser) {
 		return userExistFeignClient.getUserNameById(idUser);
+	}
+
+	@Override
+	public EventExistResponseWithErrorList findEventByName(String name) throws EmptyListException {
+		boolean isExist = false;
+		EventExistResponseWithErrorList eventExistResponseWithErrorList;
+		try {
+			eventExistResponseWithErrorList = eventExistFeignClient.findEventByName(name);
+			if (!eventExistResponseWithErrorList.isErrorBool()) {
+				if (!eventExistResponseWithErrorList.isEventListExistBool()) {
+					isExist = false;
+				}
+			} else {
+				isExist = false;
+			}
+			LOGGER.info("Existe lista de eventos por nombre: " + isExist);
+		} catch (FeignException e) {
+			LOGGER.warn(e);
+			throw new EmptyListException("Error en el feign listando eventos por nombre");
+		}
+		eventExistResponseWithErrorList.setEventListExistBool(isExist);
+		return eventExistResponseWithErrorList;
 	}
 }

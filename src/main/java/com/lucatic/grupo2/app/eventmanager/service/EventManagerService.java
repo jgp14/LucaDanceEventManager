@@ -1,6 +1,10 @@
 package com.lucatic.grupo2.app.eventmanager.service;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
+import com.lucatic.grupo2.app.eventmanager.exceptions.EmptyListException;
+import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithErrorList;
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 
 /**
@@ -29,4 +33,13 @@ public interface EventManagerService {
 	 * @return StringResponseWithError devuelve el nombre del usuario con error o no
 	 */
 	StringResponseWithError getNameUser(Long idUser);
+
+	/**
+	 * Devuelve los eventos por nombre
+	 * 
+	 * @param name nombre de los eventos buscados
+	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
+	 */
+	EventExistResponseWithErrorList findEventByName(String name) throws EmptyListException;
+
 }
