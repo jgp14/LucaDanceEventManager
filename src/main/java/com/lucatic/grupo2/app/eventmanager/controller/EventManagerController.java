@@ -3,6 +3,7 @@ package com.lucatic.grupo2.app.eventmanager.controller;
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
 import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
 import com.lucatic.grupo2.app.eventmanager.models.dto.BoolResponseWithError;
+import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithErrorList;
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 import com.lucatic.grupo2.app.eventmanager.service.EventManagerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,6 +81,7 @@ public class EventManagerController {
 	 * 
 	 * @param idUser identificador de usuario a buscar
 	 * @return ResponseEntity Con la respuesta al obtener el nombre de usuario.
+	 * @throws EventManagerException cuando no seobtiene el usuaroi
 	 */
 	@Operation(summary = "Comprueba la existencia de un usuario por id", description = "Devuelve la existencia de un usuario", tags = {
 			"user" })
@@ -97,5 +99,29 @@ public class EventManagerController {
 		stringResponseWithError.setErrorBool(false);
 		LOGGER.info(stringResponseWithError);
 		return ResponseEntity.ok().body(stringResponseWithError);
+	}
+
+	/**
+	 * Devuelve lista de eventos a partid de nombre de evento.
+	 * 
+	 * @param name nombre de los eventos a buscar.
+	 * @return ResponseEntity Con la respuesta al obtener la lista de eventos
+	 * @throws EventManagerException cuando se produce un error al mostrar lista.
+	 */
+	@Operation(summary = "Encuentra y lista los eventos por nombre", description = "Devuelve lista con los eventos con un nombre concreto", tags = {
+			"user" })
+	@ApiResponses(value = {
+			@ApiResponse(description = "Encontrar eventos por nombre", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StringResponseWithError.class))),
+			@ApiResponse(responseCode = "404", description = "No hay eventos con ese nombre", content = @Content),
+			@ApiResponse(responseCode = "500", description = "Error genérico mostrando lista eventos", content = @Content)
+
+	})
+	@GetMapping("/events/{name}")
+	public ResponseEntity<?> findEventsByName(@PathVariable String name) throws EventManagerException {
+		EventExistResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByName(name);
+		eventExistResponseWithErrorList.setError(null);
+		eventExistResponseWithErrorList.setErrorBool(false);
+		LOGGER.info(eventExistResponseWithErrorList);
+		return ResponseEntity.ok().body(eventExistResponseWithErrorList);
 	}
 }

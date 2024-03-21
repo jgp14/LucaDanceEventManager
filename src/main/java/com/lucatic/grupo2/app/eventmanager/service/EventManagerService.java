@@ -39,6 +39,6 @@ public interface EventManagerService {
 	 * @param name nombre de los eventos buscados
 	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
 	 */
-	EventExistResponseWithErrorList findEventByName(String name) throws EmptyListException;
+	EventExistResponseWithErrorList findEventsByName(String name) throws EmptyListException;
 
 }

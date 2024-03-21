@@ -94,7 +94,7 @@ public class EventManagerServiceImpl implements EventManagerService {
 	}
 
 	@Override
-	public EventExistResponseWithErrorList findEventByName(String name) throws EmptyListException {
+	public EventExistResponseWithErrorList findEventsByName(String name) throws EmptyListException {
 		boolean isExist = false;
 		EventExistResponseWithErrorList eventExistResponseWithErrorList;
 		try {
