@@ -38,7 +38,7 @@ public class HandlerEventManagerException {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
 		error.setError("Error en checkeando si existe usuario y evento");
-		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
+		error.setMessage(e.getMessage());
 		error.setStatus(HttpStatus.OK.value());
 		BoolResponseWithError boolResponseWithError = new BoolResponseWithError();
 		boolResponseWithError.setErrorBool(true);
@@ -59,7 +59,7 @@ public class HandlerEventManagerException {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
 		error.setError("Error genérico procesando petición");
-		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
+		error.setMessage("Error del tipo genérico");
 		error.setStatus(HttpStatus.BAD_REQUEST.value());
 		LOGGER.warn(error.getMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
@@ -69,8 +69,8 @@ public class HandlerEventManagerException {
 	public ResponseEntity<Error> errorGenericoRuntime(EventManagerException e) {
 		Error error = new Error();
 		error.setDate(LocalDateTime.now());
-		error.setError("Error genérico EventManagerException");
-		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
+		error.setError("Error de gestión de event manager");
+		error.setMessage(e.getMessage());
 		error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		// return ResponseEntity.internalServerError().body(error);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(error);

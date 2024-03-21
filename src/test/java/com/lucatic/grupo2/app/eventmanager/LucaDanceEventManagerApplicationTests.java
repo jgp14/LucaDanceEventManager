@@ -1,5 +1,6 @@
 package com.lucatic.grupo2.app.eventmanager;
 
+import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ class LucaDanceEventManagerApplicationTests {
 
 	/** Test obtener el nombre de un usuario por id correctamente */
 	@Test
-	void getUserNameByIdIfExists() {
+	void getUserNameByIdIfExists() throws EventManagerException {
 		assertEquals("Juan", eventManagerService.getNameUser(2L).getUserExistText());
 	}
 
@@ -38,7 +39,7 @@ class LucaDanceEventManagerApplicationTests {
 	/** Test comprobar si un usuario-evento existe por identificadores 
 	 * @throws CheckEventUserExistException */
 	@Test
-	void getCheckUserEventIfExistsByIds() throws CheckEventUserExistException {
+	void getCheckUserEventIfExistsByIds() throws EventManagerException {
 		assertEquals(true, eventManagerService.checkUserEvent(2L, 23L));
 	}
 
