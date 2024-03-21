@@ -1,7 +1,11 @@
 package com.lucatic.grupo2.app.eventmanager.service;
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
+<<<<<<< HEAD
 import com.lucatic.grupo2.app.eventmanager.exceptions.EmptyListException;
+=======
+import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
+>>>>>>> 9a13902187a7e295cf921e3cdde1947aa4daad35
 import com.lucatic.grupo2.app.eventmanager.feignclient.EventExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.feignclient.UserExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithError;
@@ -40,48 +44,56 @@ public class EventManagerServiceImpl implements EventManagerService {
 
 	/**
 	 * Comprueba si el usuario-evento existe
-	 * 
+	 *
 	 * @return boolean true si existe y false si no existe.
 	 * @throws CheckEventUserExistException se lanza cuando hay un error al chequear
 	 */
 	@Override
-	public boolean checkUserEvent(Long idUser, Long idEvent) throws CheckEventUserExistException {
+	public boolean checkUserEvent(Long idUser, Long idEvent) throws EventManagerException {
 		boolean isExist = true;
 
-		try {
-			UserExistResponseWithError userExistResponseWithError = userExistFeignClient.checkUserExist(idUser);
-			if (!userExistResponseWithError.isErrorBool()) {
-				if (!userExistResponseWithError.isUserExistBool()) {
-					isExist = false;
-				}
-			} else
-				isExist = false;
+        try {
+            UserExistResponseWithError userExistResponseWithError = userExistFeignClient.checkUserExist(idUser);
+            if (!userExistResponseWithError.isErrorBool()) {
+                if (!userExistResponseWithError.isUserExistBool()) {
+                    isExist = false;
+                }
+            } else
+                isExist = false;
 
-			EventExistResponseWithError eventExistResponseWithError = eventExistFeignClient.checkEventExist(idEvent);
+            EventExistResponseWithError eventExistResponseWithError = eventExistFeignClient.checkEventExist(idEvent);
 
-			if (!eventExistResponseWithError.isErrorBool()) {
-				if (!eventExistResponseWithError.isEventExistBool()) {
-					isExist = false;
-				}
-			} else {
-				isExist = false; //
-			}
-			LOGGER.info("Existe usuario y evento: " + isExist);
-		} catch (FeignException e) {
-			LOGGER.warn(e);
-			throw new CheckEventUserExistException("Error en el feign checkeando user y event");
-		}
-		return isExist;
-	}
-
+            if (!eventExistResponseWithError.isErrorBool()) {
+                if (!eventExistResponseWithError.isEventExistBool()) {
+                    isExist = false;
+                }
+            } else {
+                isExist = false;
+            }
+            LOGGER.info("Existe usuario y evento: " + isExist);
+            if (!isExist) {
+                throw new CheckEventUserExistException("No existe el usuario y/o evento");
+            }
+        } catch (FeignException e) {
+            LOGGER.warn(e);
+            throw new CheckEventUserExistException("Error en el feign checkeando user y event");
+        }
+        return isExist;
+    }
+	
 	/**
 	 * Devuelve el nomrbe del usuario a partir de su id
-	 * 
+	 *
 	 * @param idUser codigo de usuario
 	 * @return StringResponseWithError nombre del usuario con o sin error
 	 */
-	public StringResponseWithError getNameUser(Long idUser) {
-		return userExistFeignClient.getUserNameById(idUser);
+	public StringResponseWithError getNameUser(Long idUser) throws EventManagerException {
+	
+	    try {
+	        return userExistFeignClient.getUserNameById(idUser);
+	    } catch (FeignException e) {
+	        throw new EventManagerException("Error leyendo microservicio User");
+	    }
 	}
 
 	@Override
@@ -105,4 +117,5 @@ public class EventManagerServiceImpl implements EventManagerService {
 		eventExistResponseWithErrorList.setEventListExistBool(isExist);
 		return eventExistResponseWithErrorList;
 	}
+	
 }

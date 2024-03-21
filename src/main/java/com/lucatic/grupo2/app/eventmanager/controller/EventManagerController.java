@@ -1,6 +1,7 @@
 package com.lucatic.grupo2.app.eventmanager.controller;
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
+import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
 import com.lucatic.grupo2.app.eventmanager.models.dto.BoolResponseWithError;
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 import com.lucatic.grupo2.app.eventmanager.service.EventManagerService;
@@ -56,14 +57,14 @@ public class EventManagerController {
 	})
 	@GetMapping("/checkExist/{idUser}/{idEvent}")
 	public ResponseEntity<?> checkUserEvent(@PathVariable Long idUser, @PathVariable Long idEvent)
-			throws CheckEventUserExistException {
+			throws EventManagerException {
 
 		BoolResponseWithError boolResponseWithError = new BoolResponseWithError();
 
 		if ((eventManagerService.checkUserEvent(idUser, idEvent))) {
 			boolResponseWithError.setRespBool(true);
 		} else {
-			boolResponseWithError.setErrorBool(false);
+			boolResponseWithError.setRespBool(false);
 		}
 
 		boolResponseWithError.setError(null);
@@ -89,7 +90,7 @@ public class EventManagerController {
 
 	})
 	@GetMapping("/getUser/{idUser}")
-	public ResponseEntity<?> getNameUser(@PathVariable Long idUser) {
+	public ResponseEntity<?> getNameUser(@PathVariable Long idUser) throws EventManagerException {
 
 		StringResponseWithError stringResponseWithError = eventManagerService.getNameUser(idUser);
 		stringResponseWithError.setError(null);
