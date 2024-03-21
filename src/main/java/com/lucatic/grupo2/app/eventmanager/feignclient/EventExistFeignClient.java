@@ -34,7 +34,7 @@ public interface EventExistFeignClient {
 	 * @return EventExistResponseWithErrorList con el mensaje de si la lista de
 	 *         eventos por nombre existe
 	 */
-	@GetMapping("/event/{name}")
+	@GetMapping("/event/search/{name}")
 	EventResponseWithErrorList findEventByName(@PathVariable String name);
 
 	/**

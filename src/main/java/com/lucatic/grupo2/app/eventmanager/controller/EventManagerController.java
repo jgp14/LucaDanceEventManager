@@ -116,7 +116,7 @@ public class EventManagerController {
 			@ApiResponse(responseCode = "500", description = "Error genérico mostrando lista eventos", content = @Content)
 
 	})
-	@GetMapping("/event/{name}")
+	@GetMapping("/search/{name}")
 	public ResponseEntity<?> findEventsByName(@PathVariable String name) throws EventManagerException {
 		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByName(name);
 		eventExistResponseWithErrorList.setError(null);
