@@ -1,11 +1,8 @@
 package com.lucatic.grupo2.app.eventmanager.service;
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
-<<<<<<< HEAD
 import com.lucatic.grupo2.app.eventmanager.exceptions.EmptyListException;
-=======
 import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
->>>>>>> 9a13902187a7e295cf921e3cdde1947aa4daad35
 import com.lucatic.grupo2.app.eventmanager.feignclient.EventExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.feignclient.UserExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithError;

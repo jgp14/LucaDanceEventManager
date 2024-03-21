@@ -1,14 +1,9 @@
 package com.lucatic.grupo2.app.eventmanager.service;
 
-import org.springframework.web.bind.annotation.PathVariable;
-
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
-<<<<<<< HEAD
 import com.lucatic.grupo2.app.eventmanager.exceptions.EmptyListException;
 import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithErrorList;
-=======
 import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
->>>>>>> 9a13902187a7e295cf921e3cdde1947aa4daad35
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 
 /**
