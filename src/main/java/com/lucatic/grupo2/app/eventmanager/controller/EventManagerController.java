@@ -116,7 +116,7 @@ public class EventManagerController {
 			@ApiResponse(responseCode = "500", description = "Error genérico mostrando lista eventos", content = @Content)
 
 	})
-	@GetMapping("/event/name/{name}")
+	@GetMapping("/event/{name}")
 	public ResponseEntity<?> findEventsByName(@PathVariable String name) throws EventManagerException {
 		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByName(name);
 		eventExistResponseWithErrorList.setError(null);
@@ -140,7 +140,7 @@ public class EventManagerController {
 			@ApiResponse(responseCode = "500", description = "Error genérico mostrando lista eventos", content = @Content)
 
 	})
-	@GetMapping("/event/roomtype/{roomtype}")
+	@GetMapping("/eventsbyroom/{roomtype}")
 	public ResponseEntity<?> findEventsByRoomType(@PathVariable String roomtype) throws EventManagerException {
 		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByRoomType(roomtype);
 		eventExistResponseWithErrorList.setError(null);
@@ -164,9 +164,9 @@ public class EventManagerController {
 			@ApiResponse(responseCode = "500", description = "Error genérico mostrando lista eventos", content = @Content)
 
 	})
-	@GetMapping("/event/city/{city}")
-	public ResponseEntity<?> findEventsByCity(@PathVariable String city) throws EventManagerException {
-		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByCity(city);
+	@GetMapping("/eventsbycity/{cityName}")
+	public ResponseEntity<?> findEventsByCity(@PathVariable String cityName) throws EventManagerException {
+		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByCity(cityName);
 		eventExistResponseWithErrorList.setError(null);
 		eventExistResponseWithErrorList.setErrorBool(false);
 		LOGGER.info(eventExistResponseWithErrorList);

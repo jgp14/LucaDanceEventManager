@@ -145,10 +145,10 @@ public class EventManagerServiceImpl implements EventManagerService {
 	 * @throws EventManagerException si hay un error al buscar lista eventos
 	 */
 	@Override
-	public EventResponseWithErrorList findEventsByCity(String city) throws EventManagerException {
+	public EventResponseWithErrorList findEventsByCity(String cityName) throws EventManagerException {
 		EventResponseWithErrorList eventExistResponseWithErrorList;
 		try {
-			eventExistResponseWithErrorList = eventExistFeignClient.findEventByCity(city);
+			eventExistResponseWithErrorList = eventExistFeignClient.findEventByCity(cityName);
 			if (!eventExistResponseWithErrorList.isErrorBool()) {
 				return eventExistResponseWithErrorList;
 			} else {

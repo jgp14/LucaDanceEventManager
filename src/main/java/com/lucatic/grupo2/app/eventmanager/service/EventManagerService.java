@@ -54,6 +54,6 @@ public interface EventManagerService {
 	 * @param city ciudad de los eventos buscados
 	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
 	 */
-	EventResponseWithErrorList findEventsByCity(String city) throws EventManagerException;
+	EventResponseWithErrorList findEventsByCity(String cityName) throws EventManagerException;
 
 }
