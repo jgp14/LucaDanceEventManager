@@ -64,7 +64,7 @@ public class EventManagerController {
 		if ((eventManagerService.checkUserEvent(idUser, idEvent))) {
 			boolResponseWithError.setRespBool(true);
 		} else {
-			boolResponseWithError.setErrorBool(false);
+			boolResponseWithError.setRespBool(false);
 		}
 
 		boolResponseWithError.setError(null);

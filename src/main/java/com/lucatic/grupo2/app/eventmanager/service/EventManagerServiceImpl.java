@@ -1,6 +1,7 @@
 package com.lucatic.grupo2.app.eventmanager.service;
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
+import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
 import com.lucatic.grupo2.app.eventmanager.feignclient.EventExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.feignclient.UserExistFeignClient;
 import com.lucatic.grupo2.app.eventmanager.models.dto.EventExistResponseWithError;
@@ -43,7 +44,7 @@ public class EventManagerServiceImpl implements EventManagerService {
 	 * @throws CheckEventUserExistException se lanza cuando hay un error al chequear
 	 */
 	@Override
-	public boolean checkUserEvent(Long idUser, Long idEvent) throws CheckEventUserExistException {
+	public boolean checkUserEvent(Long idUser, Long idEvent) throws EventManagerException {
 		boolean isExist = true;
 
         try {
@@ -66,7 +67,7 @@ public class EventManagerServiceImpl implements EventManagerService {
             }
             LOGGER.info("Existe usuario y evento: " + isExist);
             if (!isExist) {
-                throw new EventManagerException("No existe el usuario y/o evento");
+                throw new CheckEventUserExistException("No existe el usuario y/o evento");
             }
         } catch (FeignException e) {
             LOGGER.warn(e);

@@ -22,10 +22,10 @@ import java.time.LocalDateTime;
  * @since 15-03-2024
  */
 @RestControllerAdvice
-public class HandlerProductException {
+public class HandlerEventManagerException {
 
 	/** Logger que registra los errores de clase HandlerProductException */
-	private final static Logger LOGGER = LogManager.getLogger(HandlerProductException.class);
+	private final static Logger LOGGER = LogManager.getLogger(HandlerEventManagerException.class);
 
 	/**
 	 * Error método de no Handler Encontrado
@@ -39,13 +39,13 @@ public class HandlerProductException {
 		error.setDate(LocalDateTime.now());
 		error.setError("Error en checkeando si existe usuario y evento");
 		error.setMessage("Error del tipo " + e.getClass().getSimpleName());
-		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		error.setStatus(HttpStatus.OK.value());
 		BoolResponseWithError boolResponseWithError = new BoolResponseWithError();
 		boolResponseWithError.setErrorBool(true);
 		boolResponseWithError.setError(error);
 		boolResponseWithError.setRespBool(false);
 		LOGGER.warn(error.getMessage());
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(boolResponseWithError);
+		return ResponseEntity.status(HttpStatus.OK.value()).body(boolResponseWithError);
 	}
 
 	/**

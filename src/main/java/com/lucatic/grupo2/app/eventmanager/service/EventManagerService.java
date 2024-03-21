@@ -1,6 +1,7 @@
 package com.lucatic.grupo2.app.eventmanager.service;
 
 import com.lucatic.grupo2.app.eventmanager.exceptions.CheckEventUserExistException;
+import com.lucatic.grupo2.app.eventmanager.exceptions.EventManagerException;
 import com.lucatic.grupo2.app.eventmanager.models.dto.StringResponseWithError;
 
 /**
@@ -20,7 +21,7 @@ public interface EventManagerService {
 	 * @return devuelve true o false si se ha comprobado que existe
 	 * @throws CheckEventUserExistException si el evento usuario no se encontro
 	 */
-	boolean checkUserEvent(Long idUser, Long idEvent) throws CheckEventUserExistException;
+	boolean checkUserEvent(Long idUser, Long idEvent) throws EventManagerException;
 
 	/**
 	 * Devuelve el nombre de usuario a partir del id usuario.
@@ -28,5 +29,5 @@ public interface EventManagerService {
 	 * @param idUser codio de usuario
 	 * @return StringResponseWithError devuelve el nombre del usuario con error o no
 	 */
-	StringResponseWithError getNameUser(Long idUser);
+	StringResponseWithError getNameUser(Long idUser) throws EventManagerException;
 }
