@@ -124,4 +124,28 @@ public class EventManagerController {
 		LOGGER.info(eventExistResponseWithErrorList);
 		return ResponseEntity.ok().body(eventExistResponseWithErrorList);
 	}
+
+	/**
+	 * Devuelve lista de eventos a partir del genero de evento.
+	 * 
+	 * @param roomtype genero de los eventos a buscar.
+	 * @return ResponseEntity Con la respuesta al obtener la lista de eventos
+	 * @throws EventManagerException cuando se produce un error al mostrar lista.
+	 */
+	@Operation(summary = "Encuentra y lista los eventos por genero", description = "Devuelve lista con los eventos con un genero concreto", tags = {
+			"user" })
+	@ApiResponses(value = {
+			@ApiResponse(description = "Encontrar eventos por genero", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StringResponseWithError.class))),
+			@ApiResponse(responseCode = "404", description = "No hay eventos con ese genero", content = @Content),
+			@ApiResponse(responseCode = "500", description = "Error genérico mostrando lista eventos", content = @Content)
+
+	})
+	@GetMapping("/events/{roomtype}")
+	public ResponseEntity<?> findEventsByRoomType(@PathVariable String roomtype) throws EventManagerException {
+		EventResponseWithErrorList eventExistResponseWithErrorList = eventManagerService.findEventsByRoomType(roomtype);
+		eventExistResponseWithErrorList.setError(null);
+		eventExistResponseWithErrorList.setErrorBool(false);
+		LOGGER.info(eventExistResponseWithErrorList);
+		return ResponseEntity.ok().body(eventExistResponseWithErrorList);
+	}
 }

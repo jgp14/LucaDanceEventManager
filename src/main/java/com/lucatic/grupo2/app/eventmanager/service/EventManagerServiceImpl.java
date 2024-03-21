@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.events.EventException;
 
 /**
  * Clase que implementa el servicio de EventManager
@@ -49,35 +48,35 @@ public class EventManagerServiceImpl implements EventManagerService {
 	public boolean checkUserEvent(Long idUser, Long idEvent) throws EventManagerException {
 		boolean isExist = true;
 
-        try {
-            UserExistResponseWithError userExistResponseWithError = userExistFeignClient.checkUserExist(idUser);
-            if (!userExistResponseWithError.isErrorBool()) {
-                if (!userExistResponseWithError.isUserExistBool()) {
-                    isExist = false;
-                }
-            } else
-                isExist = false;
+		try {
+			UserExistResponseWithError userExistResponseWithError = userExistFeignClient.checkUserExist(idUser);
+			if (!userExistResponseWithError.isErrorBool()) {
+				if (!userExistResponseWithError.isUserExistBool()) {
+					isExist = false;
+				}
+			} else
+				isExist = false;
 
-            EventExistResponseWithError eventExistResponseWithError = eventExistFeignClient.checkEventExist(idEvent);
+			EventExistResponseWithError eventExistResponseWithError = eventExistFeignClient.checkEventExist(idEvent);
 
-            if (!eventExistResponseWithError.isErrorBool()) {
-                if (!eventExistResponseWithError.isEventExistBool()) {
-                    isExist = false;
-                }
-            } else {
-                isExist = false;
-            }
-            LOGGER.info("Existe usuario y evento: " + isExist);
-            if (!isExist) {
-                throw new CheckEventUserExistException("No existe el usuario y/o evento");
-            }
-        } catch (FeignException e) {
-            LOGGER.warn(e);
-            throw new CheckEventUserExistException("Error en el feign checkeando user y event");
-        }
-        return isExist;
-    }
-	
+			if (!eventExistResponseWithError.isErrorBool()) {
+				if (!eventExistResponseWithError.isEventExistBool()) {
+					isExist = false;
+				}
+			} else {
+				isExist = false;
+			}
+			LOGGER.info("Existe usuario y evento: " + isExist);
+			if (!isExist) {
+				throw new CheckEventUserExistException("No existe el usuario y/o evento");
+			}
+		} catch (FeignException e) {
+			LOGGER.warn(e);
+			throw new CheckEventUserExistException("Error en el feign checkeando user y event");
+		}
+		return isExist;
+	}
+
 	/**
 	 * Devuelve el nomrbe del usuario a partir de su id
 	 *
@@ -85,14 +84,20 @@ public class EventManagerServiceImpl implements EventManagerService {
 	 * @return StringResponseWithError nombre del usuario con o sin error
 	 */
 	public StringResponseWithError getNameUser(Long idUser) throws EventManagerException {
-	
-	    try {
-	        return userExistFeignClient.getUserNameById(idUser);
-	    } catch (FeignException e) {
-	        throw new EventManagerException("Error leyendo microservicio User");
-	    }
+
+		try {
+			return userExistFeignClient.getUserNameById(idUser);
+		} catch (FeignException e) {
+			throw new EventManagerException("Error leyendo microservicio User");
+		}
 	}
 
+	/**
+	 * Devuelve los eventos por nombre
+	 * 
+	 * @param name nombre de los eventos buscados
+	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
+	 */
 	@Override
 	public EventResponseWithErrorList findEventsByName(String name) throws EventManagerException {
 		boolean isExist = false;
@@ -107,6 +112,29 @@ public class EventManagerServiceImpl implements EventManagerService {
 		} catch (FeignException e) {
 			LOGGER.warn(e);
 			throw new EventManagerException("Error en el feign listando eventos por nombre");
+		}
+	}
+
+	/**
+	 * Devuelve los eventos por genero
+	 * 
+	 * @param name genero de los eventos buscados
+	 * @return EventExistResponseWithErrorList si la lista tiene elementos o no
+	 */
+	@Override
+	public EventResponseWithErrorList findEventsByRoomType(String roomtype) throws EventManagerException {
+		boolean isExist = false;
+		EventResponseWithErrorList eventExistResponseWithErrorList;
+		try {
+			eventExistResponseWithErrorList = eventExistFeignClient.findEventByRoomType(roomtype);
+			if (!eventExistResponseWithErrorList.isErrorBool()) {
+				return eventExistResponseWithErrorList;
+			} else {
+				throw new EventManagerException("No se puede obtener lista de eventos");
+			}
+		} catch (FeignException e) {
+			LOGGER.warn(e);
+			throw new EventManagerException("Error en el feign listando eventos por genero");
 		}
 	}
 }
