@@ -9,8 +9,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.time.LocalDateTime;
 
@@ -74,6 +78,69 @@ public class HandlerEventManagerException {
 		error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		// return ResponseEntity.internalServerError().body(error);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(error);
+	}
+
+
+	/**
+	 * Error de tipo argumento de método no válido
+	 *
+	 * @param e La excepción
+	 * @return Un BADREQUEST con eventResponseWithError
+	 */
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<Error> errorGenericoRuntime(MethodArgumentNotValidException e) {
+		Error error = new Error();
+		error.setDate(LocalDateTime.now());
+		error.setError("Error en los datos del cliente, compruebelos");
+		error.setMessage(e.getMessage().split(":")[1]);
+		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		// return ResponseEntity.internalServerError().body(error);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
+	}
+
+	/**
+	 * Error de excepcion no se encontro el Handler.
+	 *
+	 * @param e La excepcion de handler no encontrado.
+	 * @return esponseEntity con la respuesta del error.
+	 */
+	@ExceptionHandler(NoHandlerFoundException.class)
+	public ResponseEntity<Error> errorNoHandlerFound(NoHandlerFoundException e) {
+		Error error = new Error();
+		error.setDate(LocalDateTime.now());
+		error.setError("Error en la URL");
+		error.setMessage("Error buscando manejador de petición");
+		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		// return ResponseEntity.internalServerError().body(error);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
+	}
+
+	/**
+	 * Error de excepcion por Resquest Metodo no soportado.
+	 *
+	 * @param e La excepcion de metodo no esta soportado.
+	 * @return ResponseEntity con la respuesta del error.
+	 */
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ResponseEntity<Error> errorNoHandlerFound(HttpRequestMethodNotSupportedException e) {
+		Error error = new Error();
+		error.setDate(LocalDateTime.now());
+		error.setError("Error en la URL");
+		error.setMessage("Error en el tipo de método HTTP de peticion");
+		error.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
+		// return ResponseEntity.internalServerError().body(error);
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED.value()).body(error);
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<Error> errorHttpMessageNotReadable(HttpMessageNotReadableException e) {
+		Error error = new Error();
+		error.setDate(LocalDateTime.now());
+		error.setError("Error en los campos del json");
+		error.setMessage("Introduce correctamente los datos y su formato");
+		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		// return ResponseEntity.internalServerError().body(error);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
 	}
 
 }
